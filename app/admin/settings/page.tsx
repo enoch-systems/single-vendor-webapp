@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
+import { usePathname } from 'next/navigation';
 import { 
   Bell, 
   Settings as SettingsIcon, 
@@ -9,17 +10,19 @@ import {
   Menu,
   ChevronDown,
   ArrowLeft,
-  ShoppingBag
+  ShoppingBag,
+  Edit
 } from 'lucide-react';
 import { recentActivityOrders } from '../constants';
 import { useAuth } from '@/contexts/auth-context';
 import Link from 'next/link';
 import Image from 'next/image';
-import { AdminLayout } from '@/components/admin/admin-layout';
+// AdminLayout imported previously but unused; removed
 import { AdminSideMenu } from '@/components/admin/admin-side-menu';
 
 const AdminSettings = () => {
   const { user, signOut } = useAuth();
+  const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(true);
@@ -201,7 +204,7 @@ const AdminSettings = () => {
             <Link
               href="/admin/products"
               className={`flex items-center p-3 mb-2 rounded-lg transition-colors group ${
-                '/admin/settings' === '/admin/products'
+                pathname === '/admin/products'
                   ? 'bg-slate-600 text-white'
                   : 'hover:bg-gray-700 text-gray-300 hover:text-white'
               }`}
@@ -214,7 +217,7 @@ const AdminSettings = () => {
             <Link
               href="/admin/settings"
               className={`flex items-center p-3 mb-2 rounded-lg transition-colors group ${
-                '/admin/settings' === '/admin/settings'
+                pathname === '/admin/settings'
                   ? 'bg-slate-600 text-white'
                   : 'hover:bg-gray-700 text-gray-300 hover:text-white'
               }`}
@@ -228,7 +231,7 @@ const AdminSettings = () => {
       </div>
 
       <AdminSideMenu 
-        currentPath="/admin/settings"
+        currentPath={pathname || ''}
         menuOpen={menuOpen}
         setMenuOpen={setMenuOpen}
       />
